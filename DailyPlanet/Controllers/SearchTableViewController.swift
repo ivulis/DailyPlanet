@@ -13,11 +13,11 @@ class SearchTableViewController: UITableViewController, UISearchBarDelegate {
     let searchVC = UISearchController(searchResultsController: nil)
     var searchItems: [NewsItem] = []
     var keyword = ""
-    var apiKey = "da4ea3d359ea4aa2bebd446fe3c94c3d"
+    var apiKey = "346062761bab432696b614d07c01c24c"
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Search"
+        self.navigationItem.title = "Search articles"
         createSearchBar()
         
 
@@ -36,6 +36,7 @@ class SearchTableViewController: UITableViewController, UISearchBarDelegate {
     //MARK: - Create search bar
     func createSearchBar() {
         navigationItem.searchController = searchVC
+        searchVC.searchBar.placeholder = "Tap here to search by keyword"
         searchVC.searchBar.delegate = self
     }
     
@@ -55,6 +56,11 @@ class SearchTableViewController: UITableViewController, UISearchBarDelegate {
         print(trimmedKeyword)
         
         handleGetData(keyword: trimmedKeyword)
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchItems.removeAll()
+        tableView.reloadData()
     }
     
     //MARK: - Get data

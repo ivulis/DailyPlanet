@@ -10,7 +10,6 @@
 		680AB4342749004B00FD4174 /* SavedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680AB4332749004B00FD4174 /* SavedTableViewController.swift */; };
 		684A32832747E65600D29928 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 684A32822747E65600D29928 /* AppDelegate.swift */; };
 		684A32852747E65600D29928 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 684A32842747E65600D29928 /* SceneDelegate.swift */; };
-		684A32872747E65600D29928 /* NewsFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 684A32862747E65600D29928 /* NewsFeedViewController.swift */; };
 		684A328A2747E65600D29928 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 684A32882747E65600D29928 /* Main.storyboard */; };
 		684A328F2747E65900D29928 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 684A328E2747E65900D29928 /* Assets.xcassets */; };
 		684A32922747E65900D29928 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 684A32902747E65900D29928 /* LaunchScreen.storyboard */; };
@@ -21,6 +20,7 @@
 		6898E0792748F62000AEA87B /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6898E0782748F62000AEA87B /* DetailViewController.swift */; };
 		6898E07B2748FC2A00AEA87B /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6898E07A2748FC2A00AEA87B /* WebViewController.swift */; };
 		A21A0FF6274BD5B300CFA40A /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21A0FF5274BD5B300CFA40A /* SearchTableViewController.swift */; };
+		A2577040274EAC6F00BC2B40 /* NewsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A257703F274EAC6F00BC2B40 /* NewsTableViewController.swift */; };
 		A25BCFB2274BA394008299FD /* DailyPlanet.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A25BCFB0274BA394008299FD /* DailyPlanet.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
@@ -29,7 +29,6 @@
 		684A327F2747E65600D29928 /* DailyPlanet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DailyPlanet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		684A32822747E65600D29928 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		684A32842747E65600D29928 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		684A32862747E65600D29928 /* NewsFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsFeedViewController.swift; sourceTree = "<group>"; };
 		684A32892747E65600D29928 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		684A328E2747E65900D29928 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		684A32912747E65900D29928 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -40,6 +39,7 @@
 		6898E0782748F62000AEA87B /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		6898E07A2748FC2A00AEA87B /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		A21A0FF5274BD5B300CFA40A /* SearchTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
+		A257703F274EAC6F00BC2B40 /* NewsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsTableViewController.swift; sourceTree = "<group>"; };
 		A25BCFB1274BA394008299FD /* DailyPlanet.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DailyPlanet.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -98,7 +98,7 @@
 		684A329A2747E69500D29928 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				684A32862747E65600D29928 /* NewsFeedViewController.swift */,
+				A257703F274EAC6F00BC2B40 /* NewsTableViewController.swift */,
 				6898E0782748F62000AEA87B /* DetailViewController.swift */,
 				6898E07A2748FC2A00AEA87B /* WebViewController.swift */,
 				6898E0732748F11900AEA87B /* NewsTableViewCell.swift */,
@@ -210,7 +210,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				684A32872747E65600D29928 /* NewsFeedViewController.swift in Sources */,
 				6898E07B2748FC2A00AEA87B /* WebViewController.swift in Sources */,
 				A25BCFB2274BA394008299FD /* DailyPlanet.xcdatamodeld in Sources */,
 				6898E0742748F11900AEA87B /* NewsTableViewCell.swift in Sources */,
@@ -218,6 +217,7 @@
 				684A32A12747E73800D29928 /* NewsItem.swift in Sources */,
 				684A32832747E65600D29928 /* AppDelegate.swift in Sources */,
 				684A329F2747E72000D29928 /* Alert.swift in Sources */,
+				A2577040274EAC6F00BC2B40 /* NewsTableViewController.swift in Sources */,
 				A21A0FF6274BD5B300CFA40A /* SearchTableViewController.swift in Sources */,
 				684A32852747E65600D29928 /* SceneDelegate.swift in Sources */,
 				6898E0792748F62000AEA87B /* DetailViewController.swift in Sources */,
