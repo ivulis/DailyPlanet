@@ -13,25 +13,31 @@ class SearchTableViewController: UITableViewController, UISearchBarDelegate {
     let searchVC = UISearchController(searchResultsController: nil)
     var searchItems: [NewsItem] = []
     var keyword = ""
-    var apiKey = "346062761bab432696b614d07c01c24c"
+    var apiKey = "10cc685dabbc4e449c5bf0bff4f5fcdb"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "Search articles"
         createSearchBar()
-        
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
+    
+    
+    //MARK: - Number of rows in section
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if searchItems.count == 0 {
+            tableView.setEmptyView(title: "No search results", message: "Your search results will be here")
+        } else {
+            tableView.restore()
+        }
+        return searchItems.count
+    }
+    
     
     //MARK: - Search info button tapped
     @IBAction func searchInfoButtonTapped(_ sender: Any) {
-        basicAlert(title: "Search info", message: "In this section you can search for articles by keywords.\nTap on search bar, enter anything you want to search for and press \"Search\" on the keyboard.")
+        basicAlert(title: "Search info", message: "In this section you can search for articles by keyword.\nTap on search bar, enter any keyword you want to search for and press \"Search\" on the keyboard.")
     }
+    
     
     //MARK: - Create search bar
     func createSearchBar() {
@@ -40,16 +46,8 @@ class SearchTableViewController: UITableViewController, UISearchBarDelegate {
         searchVC.searchBar.delegate = self
     }
     
-    /*
-    //MARK: - Load data when view appears
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        //tableView.isEditing = false
-        //handleGetData(keyword: keyword)
-    }
-     */
     
-    //MARK: - Search bar
+    //MARK: - Search bar enter button
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let keyword = searchBar.text, !keyword.isEmpty else {return}
         let trimmedKeyword = keyword.filter {!$0.isWhitespace}
@@ -58,14 +56,16 @@ class SearchTableViewController: UITableViewController, UISearchBarDelegate {
         handleGetData(keyword: trimmedKeyword)
     }
     
+    
+    //MARK: - Search bar cancel button
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchItems.removeAll()
         tableView.reloadData()
     }
     
+    
     //MARK: - Get data
     func handleGetData(keyword: String){
-        //activityIndicator(animated: true)
         let jsonUrl = "https://newsapi.org/v2/everything?q=\(keyword)&language=en&sortBy=popularity&apiKey=\(apiKey)"
         
         guard let url = URL(string: jsonUrl) else {return}
@@ -95,7 +95,6 @@ class SearchTableViewController: UITableViewController, UISearchBarDelegate {
                 DispatchQueue.main.async {
                     print("self.newsItems:", self.searchItems)
                     self.tableView.reloadData()
-                    //self.activityIndicator(animated: false)
                 }
             }catch{
                 print("err:", error)
@@ -103,20 +102,6 @@ class SearchTableViewController: UITableViewController, UISearchBarDelegate {
         }.resume()
     }
     
-
-    // MARK: - Table view data source
-
-    /*
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
-    }
-     */
-
-    //MARK: - Number of rows in section
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return searchItems.count
-    }
 
     //MARK: - Write item in cell
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -129,20 +114,12 @@ class SearchTableViewController: UITableViewController, UISearchBarDelegate {
         return cell
     }
     
+    
     //MARK: - Row height
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 120
     }
     
-    /*
-    //MARK: - Navigate to web view
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        guard let vc = storyboard.instantiateViewController(withIdentifier: "WebViewController") as? WebViewController else {return}
-        vc.urlString = self.searchItems[indexPath.row].url
-        navigationController?.pushViewController(vc, animated: true)
-    }
-    */
     
     //MARK: - Navigate to article preview
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -156,50 +133,4 @@ class SearchTableViewController: UITableViewController, UISearchBarDelegate {
         
         navigationController?.pushViewController(vc, animated: true)
     }
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

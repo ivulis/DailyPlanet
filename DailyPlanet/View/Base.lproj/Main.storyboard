@@ -17,11 +17,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <activityIndicatorView key="tableFooterView" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" id="Nvk-QJ-nrG">
-                            <rect key="frame" x="0.0" y="187" width="375" height="44"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <color key="color" name="AccentColor"/>
-                        </activityIndicatorView>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="newsCell" rowHeight="120" id="6rl-9p-95l" customClass="NewsTableViewCell" customModule="DailyPlanet" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="44.5" width="375" height="120"/>
@@ -70,9 +65,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Root View Controller" id="WYb-Zr-1Ka">
-                        <barButtonItem key="leftBarButtonItem" title="Item" image="info.circle" catalog="system" id="Kz8-0a-cTI">
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="moon" catalog="system" id="Kz8-0a-cTI">
                             <connections>
-                                <action selector="newsFeedInfo:" destination="QV9-dp-af1" id="2Ol-zK-jue"/>
+                                <action selector="switchModeButtonTapped:" destination="QV9-dp-af1" id="9af-Lz-Hrg"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="slider.horizontal.3" catalog="system" id="KLV-9K-Lum">
@@ -81,9 +76,14 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <connections>
-                        <outlet property="activityIndicatorView" destination="Nvk-QJ-nrG" id="uuc-n8-vX7"/>
-                    </connections>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="ZCd-zm-dlD">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <attributedString key="attributedTitle"/>
+                        <color key="tintColor" name="AccentColor"/>
+                        <connections>
+                            <action selector="refresh:" destination="QV9-dp-af1" eventType="valueChanged" id="lVW-jg-41I"/>
+                        </connections>
+                    </refreshControl>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mcz-Xp-S7V" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -236,7 +236,7 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="amL-Ns-TM6">
                                         <rect key="frame" x="0.0" y="436" width="335" height="31"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qmn-fY-g5f">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qmn-fY-g5f" customClass="DesignButton" customModule="DailyPlanet" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="142.5" height="31"/>
                                                 <color key="backgroundColor" name="AccentColor"/>
                                                 <constraints>
@@ -246,17 +246,27 @@
                                                 <buttonConfiguration key="configuration" style="plain" title="Read full article">
                                                     <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </buttonConfiguration>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                        <integer key="value" value="10"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
                                                 <connections>
-                                                    <segue destination="GFL-ar-aMg" kind="show" id="uXg-l8-d5o"/>
+                                                    <action selector="readArticleButtonTapped:" destination="bsA-I9-Dge" eventType="touchUpInside" id="FHp-sB-A3C"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1s1-8I-4Hk">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1s1-8I-4Hk" customClass="DesignButton" customModule="DailyPlanet" customModuleProvider="target">
                                                 <rect key="frame" x="192.5" y="0.0" width="142.5" height="31"/>
                                                 <color key="backgroundColor" name="AccentColor"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain" title="Save article">
                                                     <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </buttonConfiguration>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                        <integer key="value" value="10"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
                                                 <connections>
                                                     <action selector="saveButtonTapped:" destination="bsA-I9-Dge" eventType="touchUpInside" id="QTM-nH-Rj6"/>
                                                 </connections>
@@ -292,11 +302,11 @@
             <objects>
                 <viewController storyboardIdentifier="WebViewController" id="GFL-ar-aMg" customClass="WebViewController" customModule="DailyPlanet" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="6QR-Fs-GI6">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YRa-gc-cvd">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <wkWebViewConfiguration key="configuration">
                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
@@ -378,9 +388,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="ubk-gh-tbN">
-                        <barButtonItem key="leftBarButtonItem" title="Item" image="info.circle" catalog="system" id="eYK-Rg-jgz">
+                        <barButtonItem key="leftBarButtonItem" title="Edit" id="eYK-Rg-jgz">
                             <connections>
-                                <action selector="savedArticlesInfo:" destination="dAB-pv-Kb7" id="5fW-LE-eBD"/>
+                                <action selector="editButtonTapped:" destination="dAB-pv-Kb7" id="Lhx-Sz-Oh7"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Item" image="trash" catalog="system" id="9o1-8F-PQZ">
@@ -390,6 +400,10 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="deleteAllArticlesButton" destination="9o1-8F-PQZ" id="OMR-89-ePy"/>
+                        <outlet property="editButtonOutlet" destination="eYK-Rg-jgz" id="raC-LG-vGg"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0DG-PD-jNk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -399,7 +413,7 @@
         <scene sceneID="AVD-Lh-8qT">
             <objects>
                 <navigationController id="nUX-V0-FAB" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Saved articles" image="arrow.down.doc.fill" catalog="system" id="E0k-pI-ROp"/>
+                    <tabBarItem key="tabBarItem" title="Saved articles" image="arrow.down.doc" catalog="system" id="E0k-pI-ROp"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="bFz-yL-6DI">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -433,10 +447,16 @@
             <point key="canvasLocation" x="-28" y="457"/>
         </scene>
     </scenes>
+    <designables>
+        <designable name="1s1-8I-4Hk">
+            <size key="intrinsicContentSize" width="99.5" height="31"/>
+        </designable>
+    </designables>
     <resources>
-        <image name="arrow.down.doc.fill" catalog="system" width="115" height="128"/>
+        <image name="arrow.down.doc" catalog="system" width="115" height="128"/>
         <image name="info.circle" catalog="system" width="128" height="121"/>
         <image name="magnifyingglass" catalog="system" width="128" height="115"/>
+        <image name="moon" catalog="system" width="128" height="121"/>
         <image name="newspaper" catalog="system" width="128" height="111"/>
         <image name="slider.horizontal.3" catalog="system" width="128" height="100"/>
         <image name="trash" catalog="system" width="121" height="128"/>

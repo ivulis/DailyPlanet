@@ -12,35 +12,50 @@ class NewsTableViewController: UITableViewController {
     var newsItems: [NewsItem] = []
     var keyword = "country=us"
     var category = "&category=general"
-    var apiKey = "346062761bab432696b614d07c01c24c"
-    
-    @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
+    var apiKey = "10cc685dabbc4e449c5bf0bff4f5fcdb"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "General news"
         handleGetData(keyword: keyword)
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
-    /*
-    //MARK: - Refresh data button action
-    @IBAction func refreshDataTapped(_ sender: Any) {
-        handleGetData(keyword: keyword)
+ 
+    //MARK: - Switch to dark/light mode
+    @IBAction func switchModeButtonTapped(_ sender: Any) {
+        var modeOn: String
+        var modeOff: String
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            modeOn = "Dark"
+            modeOff = "Light"
+        } else {
+            modeOn = "Light"
+            modeOff = "Dark"
+        }
+        
+        let settings = UIAlertController(title: "\(modeOn) mode is on", message: "Want to switch to \(modeOff) mode?\nPress button \"Open settings\" below and do it in phone settings.", preferredStyle: .actionSheet)
+        
+        let phoneSettings = UIAlertAction(title: "Open settings", style: .default) { Action in
+            guard let settingsURL = URL(string: UIApplication.openSettingsURLString) else {return}
+            
+            if UIApplication.shared.canOpenURL(settingsURL) {
+                UIApplication.shared.open(settingsURL, options: [:]) {
+                    success in
+                }
+            }
+        }
+        
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        settings.addAction(phoneSettings)
+        settings.addAction(cancel)
+        
+        present(settings, animated: true, completion: nil)
     }
-     */
-    
-    //MARK: - News feed info button
-    @IBAction func newsFeedInfo(_ sender: Any) {
-        basicAlert(title: "Latest top articles info", message: "In this section you will find latest top articles in Latvia or globally.\nPress on \"refresh\" 🔄 button to reload the articles.")
-    }
     
     
+    //MARK: - Choose category button
     @IBAction func changeCategoryButtonTapped(_ sender: Any) {
         let categoryMenu = UIAlertController(title: "Choose news category", message: .none, preferredStyle: .actionSheet)
         let business = UIAlertAction(title: "Business", style: .default) { Action in
@@ -92,25 +107,16 @@ class NewsTableViewController: UITableViewController {
         present(categoryMenu, animated: true, completion: nil)
     }
     
-    
-    //MARK: - Activity indicator
-    func activityIndicator(animated: Bool){
-        DispatchQueue.main.async {
-            if animated{
-                self.activityIndicatorView.isHidden = false
-                self.activityIndicatorView.startAnimating()
-            }else{
-                self.activityIndicatorView.isHidden = true
-                self.activityIndicatorView.stopAnimating()
-            }
-        }
+
+    //MARK: - Pull to refresh action
+    @IBAction func refresh(_ sender: UIRefreshControl) {
+        handleGetData(keyword: keyword, category: category)
     }
+    
     
     //MARK: - Get data
     func handleGetData(keyword: String, category: String? = nil){
-        newsItems.removeAll()
-        tableView.reloadData()
-        activityIndicator(animated: true)
+        refreshControl?.beginRefreshing()
         let jsonUrl = "https://newsapi.org/v2/top-headlines?\(keyword)\(category ?? "")&apiKey=\(apiKey)"
         
         guard let url = URL(string: jsonUrl) else {return}
@@ -140,30 +146,23 @@ class NewsTableViewController: UITableViewController {
                 DispatchQueue.main.async {
                     print("self.newsItems:", self.newsItems)
                     self.tableView.reloadData()
-                    self.activityIndicator(animated: false)
+                    self.refreshControl?.endRefreshing()
                 }
             }catch{
                 print("err:", error)
             }
-            
+    
         }.resume()
     }
     
-    // MARK: - Table view data source
-
-    /*
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
-    }
-     */
-
+ 
+    //MARK: - Number of rows
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return newsItems.count
     }
 
     
+    //MARK: - Write item in cell
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "newsCell", for: indexPath) as? NewsTableViewCell else {return UITableViewCell()}
 
@@ -175,11 +174,13 @@ class NewsTableViewController: UITableViewController {
         return cell
     }
     
+    
     //MARK: - Row height
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 120
     }
 
+    
     //MARK: - Navigate to article preview
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let storybord = UIStoryboard(name: "Main", bundle: Bundle.main)
@@ -192,50 +193,4 @@ class NewsTableViewController: UITableViewController {
         
         navigationController?.pushViewController(vc, animated: true)
     }
-    
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

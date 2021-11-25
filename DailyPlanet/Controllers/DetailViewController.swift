@@ -34,19 +34,30 @@ class DetailViewController: UIViewController {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         context = appDelegate.persistentContainer.viewContext
         
-        //hideSaveButton()
-        //saveArticleButton.isHidden = hideSaveButton()
+        hideSaveButton()
     }
     
-    /*
+    
+    //MARK: - Is article already saved
     func hideSaveButton() {
-        let query = titleString
-        let request: NSFetchRequest<Items> = Items.fetchRequest()
-        print("\n", request)
-        request.predicate = NSPredicate(format: "newsTitle == %@", query)
-        print("\n", request)
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Items")
+        fetchRequest.predicate = NSPredicate(format: "newsTitle == %@", titleString)
+        
+        do {
+            let matchedArticles = try context?.fetch(fetchRequest) as! [Items]
+            if matchedArticles.isEmpty {
+                saveArticleButton.setTitle("Save article", for: .normal)
+                saveArticleButton.isEnabled = true
+            } else {
+                saveArticleButton.setTitle("Already saved", for: .normal)
+                saveArticleButton.backgroundColor = .init(red: 0, green: 0.5, blue: 0.1, alpha: 1)
+                saveArticleButton.isEnabled = false
+            }
+        } catch let error as NSError {
+            print(error.localizedDescription)
+        }
     }
-     */
+    
     
     //MARK: - Saving data
     func saveData() {
@@ -58,6 +69,7 @@ class DetailViewController: UIViewController {
         }
     }
     
+    
     //MARK: - Save button action
     @IBAction func saveButtonTapped(_ sender: Any) {
         let newItem = Items(context: context!)
@@ -68,11 +80,20 @@ class DetailViewController: UIViewController {
         
         savedItems.append(newItem)
         saveData()
+        
+        saveArticleButton.setTitle("Already saved", for: .normal)
+        saveArticleButton.backgroundColor = .init(red: 0, green: 0.5, blue: 0.1, alpha: 1)
+        saveArticleButton.isEnabled = false
     }
     
-    // MARK: - Navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let destinationVC: WebViewController = segue.destination as! WebViewController
-        destinationVC.urlString = webUrlString
+    
+    //MARK: - Navigate to web view
+    @IBAction func readArticleButtonTapped(_ sender: Any) {
+        let storybord = UIStoryboard(name: "Main", bundle: Bundle.main)
+        guard let vc = storybord.instantiateViewController(withIdentifier: "WebViewController") as? WebViewController else {return}
+        
+        vc.urlString = webUrlString
+        
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
