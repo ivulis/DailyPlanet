@@ -13,7 +13,7 @@ class SearchTableViewController: UITableViewController, UISearchBarDelegate {
     let searchVC = UISearchController(searchResultsController: nil)
     var searchItems: [NewsItem] = []
     var keyword = ""
-    var apiKey = "10cc685dabbc4e449c5bf0bff4f5fcdb"
+    var apiKey = "40861cbd1e744cae9c0975478d7576e7"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -109,6 +109,7 @@ class SearchTableViewController: UITableViewController, UISearchBarDelegate {
 
         let item = searchItems[indexPath.row]
         cell.newsTitleLabel.text = item.title
+        cell.newsPublishedAtLabel.text = item.publishedAt.replacingOccurrences(of: "T", with: " ").replacingOccurrences(of: "Z", with: "")
         cell.newsImageView.sd_setImage(with: URL(string: item.urlToImage ?? ""), placeholderImage: UIImage(named: "news.png"))
 
         return cell
@@ -117,7 +118,7 @@ class SearchTableViewController: UITableViewController, UISearchBarDelegate {
     
     //MARK: - Row height
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 120
+        return 140
     }
     
     

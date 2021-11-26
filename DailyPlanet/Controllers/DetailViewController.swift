@@ -15,10 +15,12 @@ class DetailViewController: UIViewController {
     var context: NSManagedObjectContext?
     var webUrlString = String()
     var titleString = String()
+    var publishedAtString = String()
     var contentString = String()
     var newsImage = String()
     
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var publishedAtLabel: UILabel!
     @IBOutlet weak var newsImageView: UIImageView!
     @IBOutlet weak var contentTextView: UITextView!
     
@@ -28,6 +30,7 @@ class DetailViewController: UIViewController {
         super.viewDidLoad()
         
         titleLabel.text = titleString
+        publishedAtLabel.text = publishedAtString.replacingOccurrences(of: "T", with: " ").replacingOccurrences(of: "Z", with: "")
         contentTextView.text = contentString
         newsImageView.sd_setImage(with: URL(string: newsImage), placeholderImage: UIImage(named: "news.png"))
         
@@ -74,6 +77,7 @@ class DetailViewController: UIViewController {
     @IBAction func saveButtonTapped(_ sender: Any) {
         let newItem = Items(context: context!)
         newItem.newsTitle = titleString
+        newItem.publishedAt = publishedAtString
         newItem.newsContent = contentString
         newItem.url = webUrlString
         newItem.image = newsImage

@@ -12,49 +12,40 @@ class NewsTableViewController: UITableViewController {
     var newsItems: [NewsItem] = []
     var keyword = "country=us"
     var category = "&category=general"
-    var apiKey = "10cc685dabbc4e449c5bf0bff4f5fcdb"
+    var apiKey = "40861cbd1e744cae9c0975478d7576e7"
+    
+    @IBOutlet weak var switchModeButtonOutlet: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "General news"
+        checkMode()
         handleGetData(keyword: keyword)
     }
 
- 
+    
     //MARK: - Switch to dark/light mode
     @IBAction func switchModeButtonTapped(_ sender: Any) {
-        var modeOn: String
-        var modeOff: String
-        
         if self.traitCollection.userInterfaceStyle == .dark {
-            modeOn = "Dark"
-            modeOff = "Light"
+            view.window?.overrideUserInterfaceStyle = .light
+            switchModeButtonOutlet.image = UIImage(systemName: "sun.max.fill")
         } else {
-            modeOn = "Light"
-            modeOff = "Dark"
+            view.window?.overrideUserInterfaceStyle = .dark
+            switchModeButtonOutlet.image = UIImage(systemName: "moon.fill")
         }
-        
-        let settings = UIAlertController(title: "\(modeOn) mode is on", message: "Want to switch to \(modeOff) mode?\nPress button \"Open settings\" below and do it in phone settings.", preferredStyle: .actionSheet)
-        
-        let phoneSettings = UIAlertAction(title: "Open settings", style: .default) { Action in
-            guard let settingsURL = URL(string: UIApplication.openSettingsURLString) else {return}
-            
-            if UIApplication.shared.canOpenURL(settingsURL) {
-                UIApplication.shared.open(settingsURL, options: [:]) {
-                    success in
-                }
-            }
-        }
-        
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        
-        settings.addAction(phoneSettings)
-        settings.addAction(cancel)
-        
-        present(settings, animated: true, completion: nil)
     }
     
     
+    //MARK: - Check UI mode status
+    func checkMode() {
+        if self.traitCollection.userInterfaceStyle == .dark {
+            switchModeButtonOutlet.image = UIImage(systemName: "moon.fill")
+        } else {
+            switchModeButtonOutlet.image = UIImage(systemName: "sun.max.fill")
+        }
+    }
+    
+ 
     //MARK: - Choose category button
     @IBAction func changeCategoryButtonTapped(_ sender: Any) {
         let categoryMenu = UIAlertController(title: "Choose news category", message: .none, preferredStyle: .actionSheet)
@@ -116,6 +107,8 @@ class NewsTableViewController: UITableViewController {
     
     //MARK: - Get data
     func handleGetData(keyword: String, category: String? = nil){
+        newsItems.removeAll()
+        tableView.reloadData()
         refreshControl?.beginRefreshing()
         let jsonUrl = "https://newsapi.org/v2/top-headlines?\(keyword)\(category ?? "")&apiKey=\(apiKey)"
         
@@ -167,8 +160,8 @@ class NewsTableViewController: UITableViewController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "newsCell", for: indexPath) as? NewsTableViewCell else {return UITableViewCell()}
 
         let item = newsItems[indexPath.row]
+        cell.newsPublishedAtLabel.text = item.publishedAt.replacingOccurrences(of: "T", with: " ").replacingOccurrences(of: "Z", with: "")
         cell.newsTitleLabel.text = item.title
-        cell.newsTitleLabel.numberOfLines = 0
         cell.newsImageView.sd_setImage(with:URL(string: item.urlToImage ?? ""), placeholderImage: UIImage(named: "news.png"))
 
         return cell
@@ -177,7 +170,7 @@ class NewsTableViewController: UITableViewController {
     
     //MARK: - Row height
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 120
+        return 140
     }
 
     
@@ -188,6 +181,7 @@ class NewsTableViewController: UITableViewController {
         let item = newsItems[indexPath.row]
         vc.newsImage = item.urlToImage ?? ""
         vc.titleString = item.title
+        vc.publishedAtString = item.publishedAt
         vc.webUrlString = item.url
         vc.contentString = item.description ?? ""
         

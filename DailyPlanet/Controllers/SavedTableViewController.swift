@@ -36,7 +36,7 @@ class SavedTableViewController: UITableViewController {
     //MARK: - Number of rows in section
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if savedItems.count == 0 {
-            tableView.setEmptyView(title: "You don't have any saved articles.", message: "Your saved articles will be here.")
+            tableView.setEmptyView(title: "You don't have any saved articles", message: "Your saved articles will be here")
         } else {
             tableView.restore()
         }
@@ -140,6 +140,7 @@ class SavedTableViewController: UITableViewController {
 
         let item = savedItems[indexPath.row]
         cell.newsTitleLabel.text = item.newsTitle
+        cell.newsPublishedAtLabel.text = item.publishedAt?.replacingOccurrences(of: "T", with: " ").replacingOccurrences(of: "Z", with: "")
         cell.newsImageView.sd_setImage(with: URL(string: item.image!), placeholderImage: UIImage(named: "news.png"))
 
         return cell
@@ -148,7 +149,7 @@ class SavedTableViewController: UITableViewController {
     
     //MARK: - Row height
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 120
+        return 140
     }
     
     
@@ -161,6 +162,7 @@ class SavedTableViewController: UITableViewController {
                 let item = self.savedItems[indexPath.row]
                 self.context?.delete(item)
                 self.saveData()
+                self.basicAlert(title: "Success!", message: "Article has been successfully removed from your favorites.")
             }))
             self.present(alert, animated: true)
         }
