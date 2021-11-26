@@ -12,7 +12,7 @@ class NewsTableViewController: UITableViewController {
     var newsItems: [NewsItem] = []
     var keyword = "country=us"
     var category = "&category=general"
-    var apiKey = "40861cbd1e744cae9c0975478d7576e7"
+    var apiKey = "e3cf8e5c11b1467a9cdb8467b5564ddd"
     
     @IBOutlet weak var switchModeButtonOutlet: UIBarButtonItem!
     

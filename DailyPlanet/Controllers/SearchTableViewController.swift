@@ -13,7 +13,7 @@ class SearchTableViewController: UITableViewController, UISearchBarDelegate {
     let searchVC = UISearchController(searchResultsController: nil)
     var searchItems: [NewsItem] = []
     var keyword = ""
-    var apiKey = "40861cbd1e744cae9c0975478d7576e7"
+    var apiKey = "e3cf8e5c11b1467a9cdb8467b5564ddd"
     
     override func viewDidLoad() {
         super.viewDidLoad()
